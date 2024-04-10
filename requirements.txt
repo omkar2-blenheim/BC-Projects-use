@@ -1,3 +1,6 @@
-openai==0.28.1
+openai==1.13.3
 python-dotenv
 streamlit
+langchain_openai
+rich
+ragas==0.1.3

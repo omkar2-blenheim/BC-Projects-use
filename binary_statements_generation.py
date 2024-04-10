@@ -36,10 +36,10 @@ def gpt_function(client, ksb, ksb_desc, extra_instruction=''):
                                         - Then generate the questions line by line
                                         
                                     Instructions to generate the question:
-                                    - The questions has to be questioning considering you are asking it to assess a content which is given by an auther
-                                    - Questions going assess users 
-                                    - Question always should be asking like "Does the content Explain this...", "Does the content include ..." or "Does the author of the content eplains...."
-                                    - If user has added an extra instructions then priorities that
+                                    - The questions should be formulated to assess content provided by an author, considering that they are intended for evaluation purposes.
+                                    - Questions are designed to assess users' understanding.
+                                    - Questions should typically be phrased as, "Does the content explain this...", "Does the content include...", or "Does the author of the content explain..."
+                                    - If the user has added extra instructions, these should be prioritized.
                                     
                                     examples:
                                     
@@ -57,14 +57,14 @@ def gpt_function(client, ksb, ksb_desc, extra_instruction=''):
                                     2.  "KSB": SKill
                                         "Description" : "Describe and show developing and maintaining effective working relationships with clients, colleagues and suppliers, establishing and using professional contacts."
                                         "Generated questions":
-                                        Does the author SHOW evidence of emails, messages on Teams and other similar communication tools. 
-                                        Does the content SHOW strong narrative around these examples in how this helps to develop and maintain good working relationships.
-                                        Does the content EXPLAIN ALL examples shown. 
-                                        Does the content of all examples shown EXPLAIN clients, colleagues and suppliers.
-                                        Does the author of the content SHOW evidence of working together as a team.
-                                        Does the content EXPLAIN ALL examples shown. 
-                                        Does the content SHOW evidence of an example linked to colleagues and at least one example linked to someone other than a colleague.
-                                        Does the content include an EXAMPLE of how can you show ways of maintaining positive working relationships with your customers or clients? 
+                                            Does the author SHOW evidence of emails, messages on Teams and other similar communication tools. 
+                                            Does the content SHOW strong narrative around these examples in how this helps to develop and maintain good working relationships.
+                                            Does the content EXPLAIN ALL examples shown. 
+                                            Does the content of all examples shown EXPLAIN clients, colleagues and suppliers.
+                                            Does the author of the content SHOW evidence of working together as a team.
+                                            Does the content EXPLAIN ALL examples shown. 
+                                            Does the content SHOW evidence of an example linked to colleagues and at least one example linked to someone other than a colleague.
+                                            Does the content include an EXAMPLE of how can you show ways of maintaining positive working relationships with your customers or clients? 
                                     
                                     
                                     """},
@@ -90,7 +90,7 @@ def main():
 
     st.sidebar.title("Azure OpenAI API Key")
     openai_api_key = st.sidebar.text_input("Enter your Azure OpenAI API Key", type="password")
-    openai_endpoint = 'https://bc-api-management-uksouth.azure-api.net'
+    openai_endpoint = "https://guildiq-openai-prod-fr-eu.openai.azure.com/" # 'https://bc-api-management-uksouth.azure-api.net'
     client = get_openai_client(openai_api_key, openai_endpoint)
 
     input_list = ["KSB", "Enter your KSB Description", "Additional instruction (Optional)"]
