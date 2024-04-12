@@ -1,11 +1,29 @@
 import streamlit as st
-import openai
+import openai, os
+from dotenv import load_dotenv
+from openai import AsyncAzureOpenAI
+import asyncio
+################ INITIALISATION ####################
+load_dotenv()
+api_key = os.environ.get('UKS_API_KEY')
+api_url = os.environ.get('UKS_BASE_URL')
 
 
+openai.log = False  # (set to "debug" if needed - and include quote marks)
+openai.api_type = "azure"
+openai.api_key = api_key
+openai.api_base = api_url
+openai.api_version = "2023-05-15"
+client = AsyncAzureOpenAI(
+     api_key=os.getenv("AZURE_OPENAI_KEY"),
+     azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
+     api_version=os.getenv("AZURE_OPENAI_VERSION")
+
+)
 def get_openai_client(api_key, endpoint):
     openai.api_type = 'azure'
     openai.api_key = api_key
-    openai.api_version = '2023-12-01-preview'
+    openai.api_version = '2023-05-15'
     openai.api_base = endpoint
     return openai
 
@@ -20,9 +38,9 @@ def gpt_function(client, ksb, ksb_desc, extra_instruction=''):
     user_content = f"""
     KSB: {ksb}
     Description:{ksb_desc}
-###
-{"Additional instruction:" if extra_instruction else ""}
-{extra_instruction}"""
+        ###
+        {"Additional instruction:" if extra_instruction else ""}
+        {extra_instruction}"""
 
     conversation = [{"role": "system", "content": f"""your job is to generate around 3-7 questions based on the "description" and "KSB" from user.
                                     KSB is Knowledge, Skills and Behavior
@@ -70,26 +88,26 @@ def gpt_function(client, ksb, ksb_desc, extra_instruction=''):
                                     """},
                     {"role": "user", "content": f"{user_content}"}]
 
-    response = client.ChatCompletion.create(
-        messages=conversation,
-        engine="gpt-35-turbo",
-        temperature=0
-    )
-    text_response = response.choices[0].message.content
+    gpt4_model_for_summarization = os.getenv("AZURE_OPENAI_MODEL")
+    response = client.chat.completions.create(
+          model=gpt4_model_for_summarization,
+          messages=conversation
+     )
 
-    return text_response
+    return response.choices[0].message.content.strip()
 
 
-def main():
+async def main():
     st.title("A step to Automate KSB binary statements")
+    openai_api_key = st.text_input("Enter your Azure OpenAI keys", type="password")
     description = """
     #### About the App
     ###### This app generates binary statements based on the KSB description provided.
     """
     st.markdown(description, unsafe_allow_html=True)
 
-    st.sidebar.title("Azure OpenAI API Key")
-    openai_api_key = st.sidebar.text_input("Enter your Azure OpenAI API Key", type="password")
+    # st.sidebar.title("Azure OpenAI API Key")
+    # openai_api_key = st.sidebar.text_input("Enter your Azure OpenAI API Key", type="password")
     openai_endpoint = "https://guildiq-openai-prod-fr-eu.openai.azure.com/" # 'https://bc-api-management-uksouth.azure-api.net'
     client = get_openai_client(openai_api_key, openai_endpoint)
 
@@ -105,7 +123,7 @@ def main():
     # if not skills:
     #     skills = "None"
 
-    if ksb_desc and openai_api_key and openai_endpoint:
+    if ksb_desc :
         if st.button("Submit"):
             with st.spinner("Let the magic happen ...."):
                 output = gpt_function(client, ksb=ksb, ksb_desc=ksb_desc, extra_instruction=extra_instruction)
@@ -113,4 +131,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
