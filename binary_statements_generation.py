@@ -5,19 +5,19 @@ from openai import AsyncAzureOpenAI
 import asyncio
 ################ INITIALISATION ####################
 load_dotenv()
-api_key = os.environ.get('UKS_API_KEY')
-api_url = os.environ.get('UKS_BASE_URL')
+# api_key = os.environ.get('UKS_API_KEY')
+# api_url = os.environ.get('UKS_BASE_URL')
 
 
-openai.log = False  # (set to "debug" if needed - and include quote marks)
-openai.api_type = "azure"
-openai.api_key = api_key
-openai.api_base = api_url
-openai.api_version = "2023-05-15"
+# openai.log = False  # (set to "debug" if needed - and include quote marks)
+# openai.api_type = "azure"
+# openai.api_key = api_key
+# openai.api_base = api_url
+# openai.api_version = "2023-05-15"
 client = AsyncAzureOpenAI(
-     api_key=os.getenv("AZURE_OPENAI_KEY"),
-     azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
-     api_version=os.getenv("AZURE_OPENAI_VERSION")
+     api_key=st.secrets["AZURE_OPENAI_KEY"], #os.getenv("AZURE_OPENAI_KEY"),
+     azure_endpoint=st.secrets["AZURE_OPENAI_ENDPOINT"], #os.getenv("AZURE_OPENAI_ENDPOINT"),
+     api_version=st.secrets["AZURE_OPENAI_VERSION"] #os.getenv("AZURE_OPENAI_VERSION")
 
 )
 def get_openai_client(api_key, endpoint):
@@ -88,7 +88,7 @@ def gpt_function(client, ksb, ksb_desc, extra_instruction=''):
                                     """},
                     {"role": "user", "content": f"{user_content}"}]
 
-    gpt4_model_for_summarization = os.getenv("AZURE_OPENAI_MODEL")
+    gpt4_model_for_summarization = st.secrets["AZURE_OPENAI_VERSION"] #os.getenv("AZURE_OPENAI_MODEL")
     response = client.chat.completions.create(
           model=gpt4_model_for_summarization,
           messages=conversation
