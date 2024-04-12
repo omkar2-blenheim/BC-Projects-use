@@ -15,8 +15,8 @@ load_dotenv()
 # openai.api_base = api_url
 # openai.api_version = "2023-05-15"
 client = AsyncAzureOpenAI(
-     api_key=st.secrets["AZURE_OPENAI_KEY"], #os.getenv("AZURE_OPENAI_KEY"),
-     azure_endpoint=st.secrets["AZURE_OPENAI_ENDPOINT"], #os.getenv("AZURE_OPENAI_ENDPOINT"),
+     api_key= st.secrets["AZURE_OPENAI_KEY"],# os.getenv("AZURE_OPENAI_KEY"),
+     azure_endpoint= st.secrets["AZURE_OPENAI_ENDPOINT"], #os.getenv("AZURE_OPENAI_ENDPOINT"),
      api_version=st.secrets["AZURE_OPENAI_VERSION"] #os.getenv("AZURE_OPENAI_VERSION")
 
 )
@@ -88,7 +88,7 @@ def gpt_function(client, ksb, ksb_desc, extra_instruction=''):
                                     """},
                     {"role": "user", "content": f"{user_content}"}]
 
-    gpt4_model_for_summarization = st.secrets["AZURE_OPENAI_VERSION"] #os.getenv("AZURE_OPENAI_MODEL")
+    gpt4_model_for_summarization = st.secrets["AZURE_OPENAI_MODEL"] #os.getenv("AZURE_OPENAI_MODEL")
     response = client.chat.completions.create(
           model=gpt4_model_for_summarization,
           messages=conversation
