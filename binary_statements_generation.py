@@ -88,9 +88,9 @@ def gpt_function(client, ksb, ksb_desc, extra_instruction=''):
                                     """},
                     {"role": "user", "content": f"{user_content}"}]
 
-    gpt4_model_for_summarization = st.secrets["AZURE_OPENAI_MODEL"] #os.getenv("AZURE_OPENAI_MODEL")
+    # gpt4_model_for_summarization = st.secrets["AZURE_OPENAI_MODEL"] #os.getenv("AZURE_OPENAI_MODEL")
     response = client.chat.completions.create(
-          model=gpt4_model_for_summarization,
+          model="gpt-4-8k-0613",
           messages=conversation
      )
 
