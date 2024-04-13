@@ -100,6 +100,7 @@ def gpt_function(client, ksb, ksb_desc, extra_instruction=''):
 async def main():
     st.title("A step to Automate KSB binary statements")
     openai_api_key = st.text_input("Enter your Azure OpenAI keys", type="password")
+    openai_endpoint = st.text_input("Enter your Azure OpenAI endpoint", type="password")
     description = """
     #### About the App
     ###### This app generates binary statements based on the KSB description provided.
@@ -108,12 +109,13 @@ async def main():
 
     # st.sidebar.title("Azure OpenAI API Key")
     # openai_api_key = st.sidebar.text_input("Enter your Azure OpenAI API Key", type="password")
-    openai_endpoint = "https://guildiq-openai-prod-fr-eu.openai.azure.com/" # 'https://bc-api-management-uksouth.azure-api.net'
 
-    if 'openai_client' not in st.session_state:
 
-        client = get_openai_client(openai_api_key, openai_endpoint)
-        st.session_state["openai_client"] = client
+    # if 'openai_client' not in st.session_state:
+    #     client = get_openai_client(openai_api_key, openai_endpoint)
+    #     st.session_state["openai_client"] = client
+
+    client = get_openai_client(openai_api_key, openai_endpoint)
 
     input_list = ["KSB", "Enter your KSB Description", "Additional instruction (Optional)"]
 
