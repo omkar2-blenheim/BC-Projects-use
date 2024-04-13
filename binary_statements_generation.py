@@ -14,12 +14,12 @@ load_dotenv()
 # openai.api_key = api_key
 # openai.api_base = api_url
 # openai.api_version = "2023-05-15"
-client = AsyncAzureOpenAI(
-     api_key= st.secrets["AZURE_OPENAI_KEY"],# os.getenv("AZURE_OPENAI_KEY"),
-     azure_endpoint= st.secrets["AZURE_OPENAI_ENDPOINT"], #os.getenv("AZURE_OPENAI_ENDPOINT"),
-     api_version=st.secrets["AZURE_OPENAI_VERSION"] #os.getenv("AZURE_OPENAI_VERSION")
-
-)
+# client = AsyncAzureOpenAI(
+#      api_key= st.secrets["AZURE_OPENAI_KEY"],# os.getenv("AZURE_OPENAI_KEY"),
+#      azure_endpoint= st.secrets["AZURE_OPENAI_ENDPOINT"], #os.getenv("AZURE_OPENAI_ENDPOINT"),
+#      api_version=st.secrets["AZURE_OPENAI_VERSION"] #os.getenv("AZURE_OPENAI_VERSION")
+#
+# )
 def get_openai_client(api_key, endpoint):
     openai.api_type = 'azure'
     openai.api_key = api_key
@@ -109,7 +109,11 @@ async def main():
     # st.sidebar.title("Azure OpenAI API Key")
     # openai_api_key = st.sidebar.text_input("Enter your Azure OpenAI API Key", type="password")
     openai_endpoint = "https://guildiq-openai-prod-fr-eu.openai.azure.com/" # 'https://bc-api-management-uksouth.azure-api.net'
-    client = get_openai_client(openai_api_key, openai_endpoint)
+
+    if 'openai_client' not in st.session_state:
+
+        client = get_openai_client(openai_api_key, openai_endpoint)
+        st.session_state["openai_client"] = client
 
     input_list = ["KSB", "Enter your KSB Description", "Additional instruction (Optional)"]
 
