@@ -101,6 +101,7 @@ async def main():
     st.title("A step to Automate KSB binary statements")
     openai_api_key = st.text_input("Enter your Azure OpenAI keys", type="password")
     openai_endpoint = st.text_input("Enter your Azure OpenAI endpoint", type="password")
+    print("# Hari ", openai_endpoint, openai_api_key)
     description = """
     #### About the App
     ###### This app generates binary statements based on the KSB description provided.
@@ -131,6 +132,7 @@ async def main():
 
     if ksb_desc :
         if st.button("Submit"):
+            print("#Abhi ",openai_endpoint, openai_api_key)
             with st.spinner("Let the magic happen ...."):
                 output = gpt_function(client, ksb=ksb, ksb_desc=ksb_desc, extra_instruction=extra_instruction)
                 st.markdown(output, unsafe_allow_html=True)
